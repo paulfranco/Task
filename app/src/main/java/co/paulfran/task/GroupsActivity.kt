@@ -1,5 +1,6 @@
 package co.paulfran.task
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.paulfran.task.databinding.ActivityGroupsBinding
 
-class GroupsActivity : AppCompatActivity() {
+class GroupsActivity : AppCompatActivity(), OnGroupClickListener {
 
     lateinit var binding: ActivityGroupsBinding
     var groupsAdapter: GroupsAdapter? = null
@@ -27,7 +28,7 @@ class GroupsActivity : AppCompatActivity() {
 
         AppData.initialize()
 
-        groupsAdapter = GroupsAdapter(AppData.groups)
+        groupsAdapter = GroupsAdapter(AppData.groups, this)
 
         binding.groupsRecyclerView.adapter = groupsAdapter
 
@@ -56,6 +57,15 @@ class GroupsActivity : AppCompatActivity() {
 
         val dialogue: AlertDialog = builder.create()
         dialogue.show()
+    }
+
+    override fun groupClicked(index: Int) {
+        val intent = Intent(this, ItemsActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun groupLongClicked(index: Int) {
+        TODO("Not yet implemented")
     }
 }
 
