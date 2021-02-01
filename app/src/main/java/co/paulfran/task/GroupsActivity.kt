@@ -2,9 +2,13 @@ package co.paulfran.task
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +17,7 @@ import co.paulfran.task.databinding.ActivityGroupsBinding
 class GroupsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGroupsBinding
+    var groupsAdapter: GroupsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,40 +26,38 @@ class GroupsActivity : AppCompatActivity() {
         binding.groupsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         AppData.initialize()
-        
-        val groupsAdapter = GroupsAdapter(AppData.groups)
+
+        groupsAdapter = GroupsAdapter(AppData.groups)
 
         binding.groupsRecyclerView.adapter = groupsAdapter
 
     }
+
+    fun createNewGroup(v: View) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("New Project")
+        builder.setMessage("Please Enter a title for the new project")
+
+        val myInput = EditText(this)
+        myInput.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(myInput)
+
+        builder.setPositiveButton("save") { _, _ ->
+            val groupName: String = myInput.text.toString()
+            val newGroup = Group(groupName, mutableListOf())
+            AppData.groups.add(newGroup)
+           // groupsAdapter!!.notifyDataSetChanged()
+            groupsAdapter!!.notifyItemInserted(AppData.groups.count())
+        }
+
+        builder.setNegativeButton("cancel") { _, _ ->
+
+        }
+
+        val dialogue: AlertDialog = builder.create()
+        dialogue.show()
+    }
 }
 
-class GroupViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder(inflater.inflate(R.layout.group_row, parent, false)) {
-    private var groupNameTextView: TextView? = null
-    private var groupCountTextView: TextView? = null
 
-    init {
-        groupNameTextView = itemView.findViewById(R.id.group_name_tv)
-        groupCountTextView = itemView.findViewById(R.id.group_count_tv)
-    }
 
-    fun bind(group: Group) {
-        groupNameTextView!!.text = group.name
-        groupCountTextView!!.text = "${group.items.count()} items"
-    }
-}
-
-class GroupsAdapter(private val list: List<Group>): RecyclerView.Adapter<GroupViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return GroupViewHolder(inflater, parent)
-    }
-
-    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val group = list[position]
-        holder.bind(group)
-    }
-
-    override fun getItemCount(): Int = list.size
-
-}

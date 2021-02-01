@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_weight="0"
-        android:text="@string/add_new_project" />
+        android:text="@string/add_new_project"
+        android:onClick="createNewGroup"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groups_recycler_view"
