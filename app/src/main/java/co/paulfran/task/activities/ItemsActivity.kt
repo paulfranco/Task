@@ -1,16 +1,20 @@
-package co.paulfran.task
+package co.paulfran.task.activities
 
 import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import co.paulfran.task.*
+import co.paulfran.task.adapters.ItemsAdapter
+import co.paulfran.task.data.AppData
 import co.paulfran.task.databinding.ActivityItemsBinding
+import co.paulfran.task.models.Group
+import co.paulfran.task.models.Item
 
-class ItemsActivity : AppCompatActivity(), OnItemClickListener{
+class ItemsActivity : BaseActivity(), OnItemClickListener {
 
     lateinit var binding: ActivityItemsBinding
     lateinit var thisGroup: Group
@@ -59,6 +63,11 @@ class ItemsActivity : AppCompatActivity(), OnItemClickListener{
         return true
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
     override fun itemClicked(index: Int) {
         thisGroup.items[index].completed = !thisGroup.items[index].completed
         itemsAdapter!!.notifyDataSetChanged()
@@ -67,5 +76,6 @@ class ItemsActivity : AppCompatActivity(), OnItemClickListener{
     override fun itemLongClicked(index: Int) {
         thisGroup.items.removeAt(index)
         itemsAdapter!!.notifyItemRemoved(index)
+        showErrorSnackBar("Deleted Item")
     }
 }
