@@ -7,9 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.paulfran.task.databinding.ActivityItemsBinding
 
-class ItemsActivity : AppCompatActivity() {
+class ItemsActivity : AppCompatActivity(), OnItemClickListener{
 
     lateinit var binding: ActivityItemsBinding
+    lateinit var thisGroup: Group
+    var itemsAdapter: ItemsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +19,7 @@ class ItemsActivity : AppCompatActivity() {
 
 
         var selectedIndex = intent.getIntExtra("groupIndex", 0)
-        var thisGroup = AppData.groups[selectedIndex]
+        thisGroup = AppData.groups[selectedIndex]
 
         binding.toolbarTitle.text = thisGroup.name
 
@@ -26,7 +28,7 @@ class ItemsActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         binding.itemsRv.layoutManager = LinearLayoutManager(this)
-        var itemsAdapter = ItemsAdapter(thisGroup)
+        itemsAdapter = ItemsAdapter(thisGroup, this)
         binding.itemsRv.adapter = itemsAdapter
 
     }
@@ -34,5 +36,14 @@ class ItemsActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun itemClicked(index: Int) {
+        thisGroup.items[index].completed = !thisGroup.items[index].completed
+        itemsAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun itemLongClicked(index: Int) {
+        TODO("Not yet implemented")
     }
 }
