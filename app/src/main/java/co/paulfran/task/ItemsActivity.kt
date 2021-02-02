@@ -1,8 +1,11 @@
 package co.paulfran.task
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.paulfran.task.databinding.ActivityItemsBinding
@@ -30,6 +33,24 @@ class ItemsActivity : AppCompatActivity(), OnItemClickListener{
         binding.itemsRv.layoutManager = LinearLayoutManager(this)
         itemsAdapter = ItemsAdapter(thisGroup, this)
         binding.itemsRv.adapter = itemsAdapter
+        binding.newItemEt.setOnKeyListener { view, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if (event.action == KeyEvent.ACTION_DOWN) {
+                    val name: String = binding.newItemEt.text.toString()
+                    val item = Item(name, false)
+                    thisGroup.items.add(item)
+                    //itemsAdapter!!.notifyDataSetChanged()
+                    itemsAdapter!!.notifyItemInserted(thisGroup.items.count())
+                    // clear the EditText
+                    binding.newItemEt.text.clear()
+
+                    // hide keyboard
+                    val inputManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            }
+            false
+        }
 
     }
 
@@ -44,6 +65,7 @@ class ItemsActivity : AppCompatActivity(), OnItemClickListener{
     }
 
     override fun itemLongClicked(index: Int) {
-        TODO("Not yet implemented")
+        thisGroup.items.removeAt(index)
+        itemsAdapter!!.notifyItemRemoved(index)
     }
 }
