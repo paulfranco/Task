@@ -1,8 +1,12 @@
-package co.paulfran.task
+package co.paulfran.task.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import co.paulfran.task.models.Item
+import co.paulfran.task.ItemsViewHolder
+import co.paulfran.task.OnItemClickListener
+import co.paulfran.task.models.Group
 
 class ItemsAdapter(private val group: Group, listernerContext: OnItemClickListener): RecyclerView.Adapter<ItemsViewHolder>() {
 
