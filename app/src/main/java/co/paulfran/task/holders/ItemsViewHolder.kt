@@ -1,10 +1,12 @@
-package co.paulfran.task
+package co.paulfran.task.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import co.paulfran.task.R
+import co.paulfran.task.models.Item
 
 class ItemsViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder(inflater.inflate(R.layout.item_row, parent, false)) {
 

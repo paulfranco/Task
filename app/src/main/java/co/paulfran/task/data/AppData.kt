@@ -1,4 +1,7 @@
-package co.paulfran.task
+package co.paulfran.task.data
+
+import co.paulfran.task.models.Group
+import co.paulfran.task.models.Item
 
 class AppData {
 

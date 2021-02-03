@@ -1,9 +1,11 @@
-package co.paulfran.task
+package co.paulfran.task.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import co.paulfran.task.R
+import co.paulfran.task.models.Group
 
 class GroupViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerView.ViewHolder(inflater.inflate(R.layout.group_row, parent, false)) {
     private var groupNameTextView: TextView? = null

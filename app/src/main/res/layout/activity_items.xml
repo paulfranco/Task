@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".ItemsActivity">
+    tools:context=".activities.ItemsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:hint="Project Name"/>
+            android:hint="@string/project_name"/>
     </androidx.appcompat.widget.Toolbar>
 
     <EditText
@@ -35,7 +35,7 @@
         android:layout_height="64dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="+Add New Item"
+        android:hint="@string/add_new_item"
         android:textAlignment="center" />
 
     <androidx.recyclerview.widget.RecyclerView

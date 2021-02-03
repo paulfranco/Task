@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.paulfran.task.models.Item
-import co.paulfran.task.ItemsViewHolder
+import co.paulfran.task.holders.ItemsViewHolder
 import co.paulfran.task.OnItemClickListener
 import co.paulfran.task.models.Group
 

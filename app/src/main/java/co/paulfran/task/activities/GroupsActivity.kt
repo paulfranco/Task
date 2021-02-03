@@ -1,21 +1,21 @@
-package co.paulfran.task
+package co.paulfran.task.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import co.paulfran.task.*
+import co.paulfran.task.adapters.GroupsAdapter
+import co.paulfran.task.data.AppData
 import co.paulfran.task.databinding.ActivityGroupsBinding
+import co.paulfran.task.models.Group
 
-class GroupsActivity : AppCompatActivity(), OnGroupClickListener {
+class GroupsActivity : BaseActivity(), OnGroupClickListener {
 
     lateinit var binding: ActivityGroupsBinding
     var groupsAdapter: GroupsAdapter? = null
@@ -59,15 +59,24 @@ class GroupsActivity : AppCompatActivity(), OnGroupClickListener {
         dialogue.show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        groupsAdapter!!.notifyDataSetChanged()
+    }
+
     override fun groupClicked(index: Int) {
 
         val intent = Intent(this, ItemsActivity::class.java)
         intent.putExtra("groupIndex", index)
         startActivity(intent)
+
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
     override fun groupLongClicked(index: Int) {
-        TODO("Not yet implemented")
+        AppData.groups.removeAt(index)
+        groupsAdapter!!.notifyItemRemoved(index)
+        showErrorSnackBar("Deleted Project")
     }
 }
 
